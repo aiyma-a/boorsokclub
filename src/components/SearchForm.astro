@@ -1,0 +1,24 @@
+---
+const { id = 'q', autofocus = false, size = 'md', placeholder = 'Search recipes, dishes, ingredients…' } = Astro.props;
+---
+<form class={`search-form ${size}`} action="/search/" method="get" role="search">
+  <label class="sr" for={id}>Search recipes and glossary</label>
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20 L16.2 16.2"/></svg>
+  <input id={id} name="q" type="search" placeholder={placeholder} autocomplete="off" autofocus={autofocus} />
+  <button type="submit">Search</button>
+</form>
+
+<style>
+  .search-form { display: flex; align-items: center; gap: .6rem; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: .35rem .35rem .35rem 1.1rem; transition: border-color .2s, box-shadow .2s; }
+  .search-form:focus-within { border-color: var(--ink); box-shadow: 0 0 0 4px rgba(46,43,39,.06); }
+  .search-form svg { color: var(--ink-soft); flex: none; }
+  @media (max-width: 480px) { input::placeholder { font-size: .95rem; } }
+  input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; color: var(--ink); padding: .45rem 0; }
+  input::placeholder { color: #9A938A; }
+  input::-webkit-search-cancel-button { filter: grayscale(1); }
+  button { border: 0; border-radius: 999px; background: var(--ink); color: var(--snow); font: inherit; font-weight: 700; font-size: .9rem; padding: .55rem 1.1rem; cursor: pointer; }
+  button:hover { background: var(--red); }
+  .lg { padding: .45rem .45rem .45rem 1.3rem; }
+  .lg input { font-size: 1.1rem; padding: .6rem 0; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>

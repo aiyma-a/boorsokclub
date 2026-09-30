@@ -1,0 +1,54 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { glossary, glossaryGroups } from '../data/glossary';
+
+const recipeIds = new Set((await getCollection('recipes')).map((r) => r.id));
+---
+<Base title="Glossary" description="Central Asian food words explained: kazan, dastorkon, kurut, plov, manti and more.">
+  <section class="wrap">
+    <header class="head">
+      <p class="eyebrow">Glossary</p>
+      <h1>Words from our kitchen</h1>
+      <p class="blurb">The dishes, ingredients and traditions you'll meet in our recipes, explained simply.</p>
+      <nav class="jump" aria-label="Glossary sections">
+        {glossaryGroups.map((g) => <a href={`#${g.toLowerCase().replace(/[^a-z]+/g, '-')}`}>{g}</a>)}
+      </nav>
+    </header>
+
+    {glossaryGroups.map((group) => (
+      <section class="group" id={group.toLowerCase().replace(/[^a-z]+/g, '-')}>
+        <h2>{group}</h2>
+        <dl>
+          {glossary.filter((g) => g.group === group).map((g) => (
+            <div class="entry" id={g.slug}>
+              <dt>{g.term}</dt>
+              <dd>
+                {g.text}
+                {recipeIds.has(g.slug) && <a class="see" href={`/recipes/${g.slug}/`}>See the recipe →</a>}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    ))}
+  </section>
+</Base>
+
+<style>
+  .head { max-width: 620px; margin: 2.8rem 0 2.5rem; }
+  h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); margin: .5rem 0 .6rem; }
+  .blurb { color: var(--ink-soft); font-size: 1.1rem; margin: 0 0 1.4rem; }
+  .jump { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .jump a { padding: .4rem .95rem; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--ink); text-decoration: none; font-size: .9rem; font-weight: 700; }
+  .jump a:hover { border-color: var(--ink); }
+  .group { margin-bottom: 3rem; scroll-margin-top: 90px; }
+  h2 { font-size: 1.6rem; margin: 0 0 1rem; }
+  h2::after { content: ''; display: block; width: 40px; height: 2px; background: var(--red); margin-top: .6rem; }
+  dl { margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+  .entry { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem 1.25rem; scroll-margin-top: 90px; }
+  .entry:target { border-color: var(--red); box-shadow: 0 0 0 3px rgba(179,54,44,.12); }
+  dt { font-family: var(--font-display); font-size: 1.3rem; margin-bottom: .3rem; }
+  dd { margin: 0; color: var(--ink-soft); font-size: .97rem; line-height: 1.6; }
+  .see { display: block; margin-top: .6rem; font-weight: 700; font-size: .9rem; color: var(--red); text-decoration: none; }
+</style>

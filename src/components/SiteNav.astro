@@ -1,5 +1,6 @@
 ---
 import { courses, occasions } from '../data/menu';
+import SearchForm from './SearchForm.astro';
 ---
 <nav class="site-nav" aria-label="Main">
   <!-- Desktop: dropdowns open on hover or keyboard focus -->
@@ -17,21 +18,30 @@ import { courses, occasions } from '../data/menu';
         <ul>{occasions.map((o) => <li><a href={`/occasions/${o.slug}/`}>{o.label}</a></li>)}</ul>
       </div>
     </li>
-    <li><a href="/shop/">Stickers</a></li>
+    <li><a href="/glossary/">Glossary</a></li>
+    <li><a href="/shop/">Sticker Shop <span class="soon">Soon</span></a></li>
     <li><a href="/about/">About</a></li>
+    <li>
+      <details class="search-toggle">
+        <summary aria-label="Search"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20 L16.2 16.2"/></svg></summary>
+        <div class="search-bar"><div class="wrap"><SearchForm id="nav-q" /></div></div>
+      </details>
+    </li>
   </ul>
 
   <!-- Mobile: one tap opens the full menu -->
   <details class="mobile">
     <summary aria-label="Open menu"><span></span><span></span><span></span></summary>
     <div class="sheet">
+      <SearchForm id="mobile-q" placeholder="Search recipes…" />
       <p class="group">Recipes</p>
       <a href="/recipes/">All recipes</a>
       {courses.map((c) => <a href={`/recipes/course/${c.slug}/`}>{c.label}</a>)}
       <p class="group">Occasions</p>
       {occasions.map((o) => <a href={`/occasions/${o.slug}/`}>{o.label}</a>)}
       <p class="group">Boorsok Club</p>
-      <a href="/shop/">Stickers</a>
+      <a href="/glossary/">Glossary</a>
+      <a href="/shop/">Sticker Shop <span class="soon">Soon</span></a>
       <a href="/about/">About</a>
       <a href="/contact/">Contact</a>
     </div>
@@ -52,6 +62,13 @@ import { courses, occasions } from '../data/menu';
   .panel li a { display: block; padding: .35rem 0; font-weight: 400; color: var(--ink); }
   .panel .all { display: block; padding-bottom: .5rem; margin-bottom: .3rem; border-bottom: 1px solid var(--line); color: var(--red); }
 
+  .desktop { align-items: center; }
+  .soon { display: inline-block; margin-left: .3rem; padding: .05rem .45rem; border-radius: 999px; background: var(--red); color: #fff; font-size: .62rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; vertical-align: 2px; }
+  .search-toggle summary { list-style: none; cursor: pointer; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; color: var(--ink-soft); }
+  .search-toggle summary::-webkit-details-marker { display: none; }
+  .search-toggle summary:hover, .search-toggle[open] summary { color: var(--red); background: var(--stone); }
+  .search-bar { position: fixed; left: 0; right: 0; top: 72px; background: var(--snow); border-bottom: 1px solid var(--line); padding: .9rem 0; box-shadow: 0 14px 30px -24px rgba(46,43,39,.4); }
+  .search-bar .wrap { max-width: 680px; }
   .mobile { display: none; }
   summary { list-style: none; cursor: pointer; width: 44px; height: 44px; display: grid; place-content: center; gap: 5px; }
   summary::-webkit-details-marker { display: none; }
@@ -63,8 +80,17 @@ import { courses, occasions } from '../data/menu';
   .sheet a { padding: .55rem 0; font-size: 1.05rem; color: var(--ink); font-weight: 400; border-bottom: 1px solid var(--line); }
   .group { margin: 1.4rem 0 .2rem; font-size: .75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--red); }
 
-  @media (max-width: 760px) {
+  .sheet :global(.search-form) { margin: .5rem 0 .5rem; }
+  @media (max-width: 900px) {
     .desktop { display: none; }
     .mobile { display: block; }
   }
 </style>
+
+<script>
+  // Focus the field when the search bar opens; close it with Escape.
+  document.querySelectorAll<HTMLDetailsElement>('.search-toggle').forEach((d) => {
+    d.addEventListener('toggle', () => { if (d.open) d.querySelector('input')?.focus(); });
+    d.addEventListener('keydown', (e) => { if (e.key === 'Escape') { d.open = false; d.querySelector('summary')?.focus(); } });
+  });
+</script>

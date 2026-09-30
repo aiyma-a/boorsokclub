@@ -1,0 +1,89 @@
+---
+import Base from '../layouts/Base.astro';
+import SearchForm from '../components/SearchForm.astro';
+---
+<Base title="Search" description="Search Boorsok Club recipes and the Central Asian food glossary.">
+  <section class="prose">
+    <header class="head">
+      <p class="eyebrow">Search</p>
+      <h1>What are you hungry for?</h1>
+    </header>
+    <SearchForm id="page-q" size="lg" />
+    <p class="status" id="status" aria-live="polite"></p>
+    <ul class="results" id="results"></ul>
+    <div class="suggest" id="suggest">
+      <p>Try:</p>
+      {['plov', 'dumplings', 'breakfast', 'kurut', 'Nooruz', 'kazan'].map((s) => <a href={`/search/?q=${encodeURIComponent(s)}`}>{s}</a>)}
+    </div>
+  </section>
+</Base>
+
+<script>
+  type Item = { type: string; title: string; url: string; summary: string; keywords: string };
+
+  const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
+
+  const input = document.getElementById('page-q') as HTMLInputElement;
+  const list = document.getElementById('results')!;
+  const status = document.getElementById('status')!;
+  const suggest = document.getElementById('suggest')!;
+  let items: Item[] = [];
+
+  function run(q: string) {
+    const terms = norm(q).split(/\s+/).filter(Boolean);
+    suggest.hidden = terms.length > 0;
+    if (!terms.length) { list.innerHTML = ''; status.textContent = ''; return; }
+
+    const scored = items
+      .map((it) => {
+        const title = norm(it.title);
+        const hay = `${title} ${norm(it.summary)} ${norm(it.keywords)}`;
+        if (!terms.every((t) => hay.includes(t))) return null;
+        const score = terms.reduce((s, t) => s + (title.startsWith(t) ? 5 : title.includes(t) ? 3 : 1), 0) + (it.type === 'Recipe' ? 1 : 0);
+        return { it, score };
+      })
+      .filter((x): x is { it: Item; score: number } => x !== null)
+      .sort((a, b) => b.score - a.score);
+
+    status.textContent = scored.length
+      ? `${scored.length} result${scored.length === 1 ? '' : 's'} for "${q}"`
+      : `Nothing for "${q}" yet. Try another word, or browse all recipes.`;
+    list.innerHTML = scored
+      .map(({ it }) => `<li><a href="${esc(it.url)}"><span class="type">${esc(it.type)}</span><strong>${esc(it.title)}</strong><span class="sum">${esc(it.summary)}</span></a></li>`)
+      .join('');
+  }
+
+  const q = new URLSearchParams(location.search).get('q') ?? '';
+  input.value = q;
+  input.focus();
+
+  fetch('/search-index.json')
+    .then((r) => r.json())
+    .then((data: Item[]) => { items = data; run(input.value); });
+
+  input.addEventListener('input', () => {
+    run(input.value);
+    const url = new URL(location.href);
+    input.value ? url.searchParams.set('q', input.value) : url.searchParams.delete('q');
+    history.replaceState(null, '', url);
+  });
+  input.form!.addEventListener('submit', (e) => { e.preventDefault(); run(input.value); });
+</script>
+
+<style>
+  .head { margin: 2.8rem 0 1.5rem; }
+  h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); margin: .5rem 0 0; }
+  .status { color: var(--ink-soft); font-size: .95rem; margin: 1.2rem 0 .5rem; min-height: 1.5em; }
+  .results { list-style: none; padding: 0; margin: 0; }
+  .results :global(li) { border-bottom: 1px solid var(--line); }
+  .results :global(a) { display: grid; gap: .15rem; padding: 1rem 0; text-decoration: none; color: var(--ink); }
+  .results :global(a:hover strong) { color: var(--red); }
+  .results :global(.type) { font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--red); }
+  .results :global(strong) { font-family: var(--font-display); font-weight: 500; font-size: 1.3rem; }
+  .results :global(.sum) { color: var(--ink-soft); font-size: .95rem; }
+  .suggest { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: 1rem; }
+  .suggest p { margin: 0 .25rem 0 0; color: var(--ink-soft); font-size: .95rem; }
+  .suggest a { padding: .3rem .85rem; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--ink); text-decoration: none; font-size: .9rem; }
+  .suggest a:hover { border-color: var(--ink); }
+</style>
