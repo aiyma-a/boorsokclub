@@ -1,10 +1,11 @@
 ---
-import '@fontsource/fraunces/600.css';
-import '@fontsource/fraunces/700.css';
+import '@fontsource/fraunces/500.css';
+import '@fontsource/fraunces/500-italic.css';
 import '@fontsource/nunito/400.css';
-import '@fontsource/nunito/800.css';
+import '@fontsource/nunito/700.css';
 import '../styles/global.css';
 import Logo from '../components/Logo.astro';
+import Mountains from '../components/Mountains.astro';
 
 interface Props {
   title: string;
@@ -59,36 +60,40 @@ const year = new Date().getFullYear();
     <main id="main"><slot /></main>
 
     <footer class="site-footer">
-      <div class="wrap foot">
-        <div>
-          <Logo />
-          <p>Central Asian home cooking, one kazan at a time.</p>
+      <Mountains variant="hills" />
+      <div class="foot-inner">
+        <div class="wrap foot">
+          <div>
+            <Logo />
+            <p>The table is always set. Come in, sit down, have some tea.</p>
+          </div>
+          <nav aria-label="Legal">
+            <a href="/privacy/">Privacy Policy</a>
+            <a href="/disclosure/">Affiliate Disclosure</a>
+            <a href="/terms/">Terms &amp; Disclaimer</a>
+            <a href="/contact/">Contact</a>
+          </nav>
         </div>
-        <nav aria-label="Legal">
-          <a href="/privacy/">Privacy Policy</a>
-          <a href="/disclosure/">Affiliate Disclosure</a>
-          <a href="/terms/">Terms &amp; Disclaimer</a>
-          <a href="/contact/">Contact</a>
-        </nav>
+        <p class="wrap copy">© {year} Boorsok Club. All recipes, photos and illustrations are original unless noted.</p>
       </div>
-      <p class="wrap copy">© {year} Boorsok Club. All recipes, photos and illustrations are original unless noted.</p>
     </footer>
   </body>
 </html>
 
 <style>
-  .site-header { background: var(--cream); border-bottom: 1px solid rgba(58,31,26,.1); position: sticky; top: 0; z-index: 5; backdrop-filter: blur(6px); }
-  .bar { display: flex; align-items: center; justify-content: space-between; min-height: 72px; gap: 1rem; }
-  .bar nav { display: flex; gap: clamp(.9rem, 3vw, 2rem); }
-  .bar nav a { color: var(--ink); text-decoration: none; font-weight: 800; }
-  .bar nav a:hover { color: var(--red); }
-  .site-footer { margin-top: 5rem; background: var(--ink); color: var(--cream); padding: 3rem 0 1.5rem; }
-  .site-footer :global(.logo) { color: var(--cream); }
+  .site-header { background: color-mix(in srgb, var(--snow) 92%, transparent); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 5; backdrop-filter: blur(8px); }
+  .bar { display: flex; align-items: center; justify-content: space-between; min-height: 68px; gap: 1rem; }
+  .bar nav { display: flex; gap: clamp(.8rem, 3vw, 2.2rem); }
+  .bar nav a { color: var(--ink-soft); text-decoration: none; font-weight: 700; font-size: .95rem; }
+  .bar nav a:hover { color: var(--ink); }
+  .site-footer { margin-top: 6rem; }
+  .foot-inner { background: var(--pine); color: #fff; padding: 2.5rem 0 1.5rem; margin-top: -1px; }
+  .site-footer :global(.logo), .site-footer :global(.logo svg) { color: #fff; }
   .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem; }
-  .foot p { margin: .5rem 0 0; opacity: .8; }
-  .foot nav { display: grid; gap: .4rem; }
-  .foot nav a { color: var(--cream); }
-  .copy { margin-top: 2.5rem; font-size: .85rem; opacity: .65; }
-  @media (max-width: 520px) { .bar :global(.logo span) { display: none; } }
-  @media print { .site-header, .site-footer, .skip { display: none; } body { background: #fff; } }
+  .foot p { margin: .5rem 0 0; max-width: 340px; }
+  .foot nav { display: grid; gap: .3rem; }
+  .foot nav a { color: #fff; text-decoration: none; }
+  .foot nav a:hover { text-decoration: underline; }
+  .copy { margin-top: 2.5rem; font-size: .85rem; opacity: .85; }
+  @media print { .site-header, .site-footer, .skip { display: none; } }
 </style>
