@@ -1,11 +1,12 @@
 ---
+import { u } from '../lib/url';
 import Placeholder from './Placeholder.astro';
 const { recipe } = Astro.props;
 const { title, description, image, imageAlt, region, prepMinutes, cookMinutes } = recipe.data;
 ---
-<a class="card" href={`/recipes/${recipe.id}/`}>
+<a class="card" href={u(`/recipes/${recipe.id}/`)}>
   <div class="thumb">
-    {image ? <img src={image} alt={imageAlt ?? title} loading="lazy" /> : <Placeholder label={title} course={recipe.data.course} />}
+    {image ? <img src={u(image)} alt={imageAlt ?? title} loading="lazy" /> : <Placeholder label={title} course={recipe.data.course} />}
   </div>
   <p class="eyebrow">{region} · {prepMinutes + cookMinutes} min</p>
   <h3>{title}</h3>

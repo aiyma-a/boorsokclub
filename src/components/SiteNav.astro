@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import { courses, occasions } from '../data/menu';
 import SearchForm from './SearchForm.astro';
 ---
@@ -6,29 +7,29 @@ import SearchForm from './SearchForm.astro';
   <!-- Desktop: dropdowns open on hover or keyboard focus -->
   <ul class="desktop">
     <li class="drop">
-      <a href="/recipes/">Recipes</a>
+      <a href={u("/recipes/")}>Recipes</a>
       <div class="panel">
-        <a class="all" href="/recipes/">All recipes →</a>
-        <ul>{courses.map((c) => <li><a href={`/recipes/course/${c.slug}/`}>{c.label}</a></li>)}</ul>
+        <a class="all" href={u("/recipes/")}>All recipes →</a>
+        <ul>{courses.map((c) => <li><a href={u(`/recipes/course/${c.slug}/`)}>{c.label}</a></li>)}</ul>
       </div>
     </li>
     <li class="drop">
-      <a href="/occasions/">Occasions</a>
+      <a href={u("/occasions/")}>Occasions</a>
       <div class="panel">
-        <ul>{occasions.map((o) => <li><a href={`/occasions/${o.slug}/`}>{o.label}</a></li>)}</ul>
+        <ul>{occasions.map((o) => <li><a href={u(`/occasions/${o.slug}/`)}>{o.label}</a></li>)}</ul>
       </div>
     </li>
     <li class="drop">
-      <a href="/pantry/">Guides</a>
+      <a href={u("/pantry/")}>Guides</a>
       <div class="panel">
         <ul>
-          <li><a href="/pantry/">Central Asian Pantry</a></li>
-          <li><a href="/glossary/">Glossary</a></li>
+          <li><a href={u("/pantry/")}>Central Asian Pantry</a></li>
+          <li><a href={u("/glossary/")}>Glossary</a></li>
         </ul>
       </div>
     </li>
-    <li><a href="/shop/">Sticker Shop <span class="soon">Soon</span></a></li>
-    <li><a href="/about/">About</a></li>
+    <li><a href={u("/shop/")}>Sticker Shop <span class="soon">Soon</span></a></li>
+    <li><a href={u("/about/")}>About</a></li>
     <li>
       <details class="search-toggle">
         <summary aria-label="Search"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20 L16.2 16.2"/></svg></summary>
@@ -43,17 +44,17 @@ import SearchForm from './SearchForm.astro';
     <div class="sheet">
       <SearchForm id="mobile-q" placeholder="Search recipes…" />
       <p class="group">Recipes</p>
-      <a href="/recipes/">All recipes</a>
-      {courses.map((c) => <a href={`/recipes/course/${c.slug}/`}>{c.label}</a>)}
+      <a href={u("/recipes/")}>All recipes</a>
+      {courses.map((c) => <a href={u(`/recipes/course/${c.slug}/`)}>{c.label}</a>)}
       <p class="group">Occasions</p>
-      {occasions.map((o) => <a href={`/occasions/${o.slug}/`}>{o.label}</a>)}
+      {occasions.map((o) => <a href={u(`/occasions/${o.slug}/`)}>{o.label}</a>)}
       <p class="group">Guides</p>
-      <a href="/pantry/">Central Asian Pantry</a>
-      <a href="/glossary/">Glossary</a>
+      <a href={u("/pantry/")}>Central Asian Pantry</a>
+      <a href={u("/glossary/")}>Glossary</a>
       <p class="group">Boorsok Club</p>
-      <a href="/shop/">Sticker Shop <span class="soon">Soon</span></a>
-      <a href="/about/">About</a>
-      <a href="/contact/">Contact</a>
+      <a href={u("/shop/")}>Sticker Shop <span class="soon">Soon</span></a>
+      <a href={u("/about/")}>About</a>
+      <a href={u("/contact/")}>Contact</a>
     </div>
   </details>
 </nav>

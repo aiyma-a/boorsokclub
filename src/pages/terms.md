@@ -19,4 +19,4 @@ All recipes, text, photos and illustrations on Boorsok Club are our original wor
 
 ## Affiliate links
 
-See our [Affiliate Disclosure](/disclosure/).
+See our [Affiliate Disclosure](../disclosure/).

@@ -1,4 +1,5 @@
 ---
+import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Newsletter from '../../components/Newsletter.astro';
@@ -12,8 +13,8 @@ export async function getStaticPaths() {
 const { recipe } = Astro.props;
 const d = recipe.data;
 const { Content } = await render(recipe);
-const url = new URL(`/recipes/${recipe.id}/`, Astro.site).href;
-const imageUrl = d.image ? new URL(d.image, Astro.site).href : undefined;
+const url = new URL(u(`/recipes/${recipe.id}/`), Astro.site).href;
+const imageUrl = d.image ? new URL(u(d.image), Astro.site).href : undefined;
 
 // schema.org Recipe: what Pinterest Rich Pins and Google recipe results read.
 const jsonLd = {
@@ -50,7 +51,7 @@ const pinHref = `https://www.pinterest.com/pin/create/button/?url=${encodeURICom
         </div>
       </div>
       <div class="photo">
-        {d.image ? <img src={d.image} alt={d.imageAlt ?? d.title} /> : <Placeholder label={d.title} course={d.course} />}
+        {d.image ? <img src={u(d.image)} alt={d.imageAlt ?? d.title} /> : <Placeholder label={d.title} course={d.course} />}
       </div>
     </header>
 

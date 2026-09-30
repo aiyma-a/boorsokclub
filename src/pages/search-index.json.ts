@@ -1,3 +1,4 @@
+import { u } from '../lib/url';
 import { getCollection } from 'astro:content';
 import { glossary } from '../data/glossary';
 import { pantry } from '../data/pantry';
@@ -13,26 +14,26 @@ export async function GET() {
     ...recipes.map((r) => ({
       type: 'Recipe',
       title: r.data.title,
-      url: `/recipes/${r.id}/`,
+      url: u(`/recipes/${r.id}/`),
       summary: r.data.description,
       keywords: [r.data.region, courseLabel[r.data.course], ...r.data.occasions.map((o) => occasionLabel[o]), ...r.data.tags, ...r.data.ingredients].join(' '),
     })),
     ...glossary.map((g) => ({
       type: 'Glossary',
       title: g.term,
-      url: `/glossary/#${g.slug}`,
+      url: u(`/glossary/#${g.slug}`),
       summary: g.text,
       keywords: g.group,
     })),
     ...pantry.flatMap((section) => section.items.map((item) => ({
       type: 'Pantry',
       title: item.name,
-      url: '/pantry/',
+      url: u('/pantry/'),
       summary: item.use,
       keywords: [section.group, item.swap ?? ''].join(' '),
     }))),
-    ...courses.map((c) => ({ type: 'Category', title: c.label, url: `/recipes/course/${c.slug}/`, summary: c.blurb, keywords: '' })),
-    ...occasions.map((o) => ({ type: 'Occasion', title: o.label, url: `/occasions/${o.slug}/`, summary: o.blurb, keywords: '' })),
+    ...courses.map((c) => ({ type: 'Category', title: c.label, url: u(`/recipes/course/${c.slug}/`), summary: c.blurb, keywords: '' })),
+    ...occasions.map((o) => ({ type: 'Occasion', title: o.label, url: u(`/occasions/${o.slug}/`), summary: o.blurb, keywords: '' })),
   ];
 
   return new Response(JSON.stringify(items), { headers: { 'Content-Type': 'application/json' } });

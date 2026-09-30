@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import BoorsokMark from '../components/BoorsokMark.astro';
 import Base from '../layouts/Base.astro';
 ---
@@ -13,7 +14,7 @@ import Base from '../layouts/Base.astro';
       <li>Inspired by Central Asian food and craft</li>
       <li>Shipping and returns details posted before launch</li>
     </ul>
-    <a class="btn" href="/recipes/">Browse recipes while you wait</a>
+    <a class="btn" href={u("/recipes/")}>Browse recipes while you wait</a>
     <!-- TODO: add "Follow us on Pinterest" link once the account exists -->
   </section>
 </Base>

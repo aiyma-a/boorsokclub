@@ -1,7 +1,8 @@
 ---
+import { u } from '../lib/url';
 import BoorsokMark from './BoorsokMark.astro';
 ---
-<a href="/" class="logo" aria-label="Boorsok Club home">
+<a href={u("/")} class="logo" aria-label="Boorsok Club home">
   <BoorsokMark size={34} />
   <span>Boorsok Club</span>
 </a>

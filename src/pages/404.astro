@@ -1,0 +1,21 @@
+---
+import { u } from '../lib/url';
+import Base from '../layouts/Base.astro';
+import SearchForm from '../components/SearchForm.astro';
+---
+<Base title="Page not found" description="This page wandered off into the mountains.">
+  <section class="prose nf">
+    <p class="eyebrow">404</p>
+    <h1>This page wandered off into the mountains</h1>
+    <p class="blurb">We couldn't find what you were looking for, but the kettle's on. Try a search, or head back to the recipes.</p>
+    <SearchForm id="nf-q" />
+    <p class="links"><a href={u('/')}>Home</a> · <a href={u('/recipes/')}>All recipes</a> · <a href={u('/glossary/')}>Glossary</a></p>
+  </section>
+</Base>
+
+<style>
+  .nf { text-align: center; padding-top: clamp(3rem, 8vw, 5rem); }
+  h1 { font-size: clamp(2rem, 5vw, 3rem); margin: .5rem 0 .8rem; }
+  .blurb { color: var(--ink-soft); font-size: 1.1rem; margin: 0 auto 1.6rem; max-width: 520px; }
+  .links { margin-top: 1.5rem; }
+</style>

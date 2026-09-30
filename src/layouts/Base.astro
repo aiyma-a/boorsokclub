@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import '@fontsource/fraunces/500.css';
 import '@fontsource/fraunces/500-italic.css';
 import '@fontsource/nunito/400.css';
@@ -19,7 +20,7 @@ interface Props {
 const { title, description, image, type = 'website', jsonLd } = Astro.props;
 const fullTitle = title === 'Boorsok Club' ? title : `${title} | Boorsok Club`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const ogImage = image ? new URL(image, Astro.site).href : undefined;
+const ogImage = image ? new URL(u(image), Astro.site).href : undefined;
 const year = new Date().getFullYear();
 ---
 <!doctype html>
@@ -30,7 +31,8 @@ const year = new Date().getFullYear();
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {import.meta.env.PUBLIC_NOINDEX === "true" && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="icon" href={u("/favicon.svg")} type="image/svg+xml" />
 
     <!-- Open Graph: Pinterest and other sites read these for previews and Rich Pins -->
     <meta property="og:site_name" content="Boorsok Club" />
@@ -65,10 +67,10 @@ const year = new Date().getFullYear();
             <p>The table is always set. Come in, sit down, have some tea.</p>
           </div>
           <nav aria-label="Legal">
-            <a href="/privacy/">Privacy Policy</a>
-            <a href="/disclosure/">Affiliate Disclosure</a>
-            <a href="/terms/">Terms &amp; Disclaimer</a>
-            <a href="/contact/">Contact</a>
+            <a href={u("/privacy/")}>Privacy Policy</a>
+            <a href={u("/disclosure/")}>Affiliate Disclosure</a>
+            <a href={u("/terms/")}>Terms &amp; Disclaimer</a>
+            <a href={u("/contact/")}>Contact</a>
           </nav>
         </div>
         <p class="wrap copy">© {year} Boorsok Club. All recipes, photos and illustrations are original unless noted.</p>

@@ -1,6 +1,6 @@
 ---
+import { u } from '../lib/url';
 import { getCollection } from 'astro:content';
-import BoorsokMark from '../components/BoorsokMark.astro';
 import Base from '../layouts/Base.astro';
 import RecipeCard from '../components/RecipeCard.astro';
 import Mountains from '../components/Mountains.astro';
@@ -17,8 +17,8 @@ const recipes = (await getCollection('recipes')).sort((a, b) => b.data.date.valu
       <h1>Home cooking from the mountains and steppes of Central Asia</h1>
       <p class="lede">Simple recipes for plov, manti, boorsok and more, and the stories of the table they're shared around.</p>
       <div class="cta">
-        <a class="btn" href="/recipes/">Browse recipes</a>
-        <a class="btn ghost" href="/pantry/">Stock your pantry</a>
+        <a class="btn" href={u("/recipes/")}>Browse recipes</a>
+        <a class="btn ghost" href={u("/pantry/")}>Stock your pantry</a>
       </div>
     </div>
     <div class="sun" aria-hidden="true"></div>
@@ -29,11 +29,11 @@ const recipes = (await getCollection('recipes')).sort((a, b) => b.data.date.valu
   <section class="wrap courses">
     <div class="section-head">
       <h2>What are you cooking today?</h2>
-      <a href="/recipes/">All recipes →</a>
+      <a href={u("/recipes/")}>All recipes →</a>
     </div>
     <div class="tiles">
       {courses.map((c) => (
-        <a class="tile" href={`/recipes/course/${c.slug}/`} style={`--c: ${c.color}`}>
+        <a class="tile" href={u(`/recipes/course/${c.slug}/`)} style={`--c: ${c.color}`}>
           <CourseIcon slug={c.slug} size={44} />
           <span>{c.label}</span>
         </a>
@@ -49,17 +49,16 @@ const recipes = (await getCollection('recipes')).sort((a, b) => b.data.date.valu
         <blockquote>In Central Asia, a guest never leaves hungry. Tea is poured before you've sat down, and the table fills with bread, fruit and something warm from the kazan.</blockquote>
         <p class="band-note">These recipes are made to be shared the same way. Cook for the moment:</p>
         <div class="occ">
-          {occasions.map((o) => <a href={`/occasions/${o.slug}/`}>{o.label}</a>)}
+          {occasions.map((o) => <a href={u(`/occasions/${o.slug}/`)}>{o.label}</a>)}
         </div>
       </div>
-        <span class="band-mark"><BoorsokMark size={150} /></span>
     </div>
   </section>
 
   <section class="wrap">
     <div class="section-head">
       <h2>Fresh from the kazan</h2>
-      <a href="/recipes/">See all →</a>
+      <a href={u("/recipes/")}>See all →</a>
     </div>
     <div class="grid">
       {recipes.map((r) => <RecipeCard recipe={r} />)}
@@ -70,13 +69,13 @@ const recipes = (await getCollection('recipes')).sort((a, b) => b.data.date.valu
 
   <!-- New to Central Asian cooking -->
   <section class="wrap guides">
-    <a class="guide pantry" href="/pantry/">
+    <a class="guide pantry" href={u("/pantry/")}>
       <p class="eyebrow">Guide</p>
       <h3>The Central Asian pantry</h3>
       <p>The spices, staples and tools to keep at home, plus an easy swap for anything you can't find.</p>
       <span>Open the guide →</span>
     </a>
-    <a class="guide words" href="/glossary/">
+    <a class="guide words" href={u("/glossary/")}>
       <p class="eyebrow">Glossary</p>
       <h3>Words from our kitchen</h3>
       <p>Kazan, kurut, dastorkon: the words you'll meet in our recipes, explained simply.</p>
@@ -108,14 +107,12 @@ const recipes = (await getCollection('recipes')).sort((a, b) => b.data.date.valu
   .tile:hover { transform: translateY(-3px); background: color-mix(in srgb, var(--c) 45%, #fff); }
 
   .table-band { max-width: 940px; margin: 0 auto 5rem; background: #F7E7DF; border-radius: 24px; border-left: 4px solid var(--red); }
-  .band-inner { display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center; padding: clamp(1.75rem, 5vw, 3rem) clamp(1.5rem, 5vw, 3.25rem); }
-  blockquote { margin: .7rem 0 .9rem; font-family: var(--font-display); font-style: italic; font-size: clamp(1.3rem, 2.6vw, 1.7rem); line-height: 1.45; color: var(--ink); max-width: 600px; }
+  .band-inner { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: center; padding: clamp(1.75rem, 5vw, 3rem) clamp(1.5rem, 5vw, 3.25rem); }
+  blockquote { margin: .7rem 0 .9rem; font-family: var(--font-display); font-style: italic; font-size: clamp(1.3rem, 2.6vw, 1.7rem); line-height: 1.45; color: var(--ink); max-width: 780px; }
   .band-note { margin: 0 0 1rem; color: var(--ink-soft); }
   .occ { display: flex; flex-wrap: wrap; gap: .5rem; }
   .occ a { padding: .4rem .95rem; border-radius: 999px; background: #fff; border: 1px solid #EBCFC4; color: var(--ink); text-decoration: none; font-weight: 700; font-size: .88rem; }
   .occ a:hover { border-color: var(--red); color: var(--red); }
-  .band-mark { opacity: .9; }
-  .band-mark :global(svg) { width: clamp(90px, 13vw, 150px); height: auto; display: block; }
 
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 2.5rem 1.75rem; }
 
@@ -135,7 +132,6 @@ const recipes = (await getCollection('recipes')).sort((a, b) => b.data.date.valu
     .tile { scroll-snap-align: start; }
     .tile { aspect-ratio: 1; }
     .band-inner { grid-template-columns: 1fr; }
-    .band-mark { display: none; }
     .guides { grid-template-columns: 1fr; }
   }
 </style>
