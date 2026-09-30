@@ -84,6 +84,7 @@ const pinHref = `https://www.pinterest.com/pin/create/button/?url=${encodeURICom
         </div>
       </div>
       <p class="note">Times and yields are a guide. Allergen notes cover common allergens only, so always check your own ingredient labels.</p>
+      <p class="print-credit">© {new Date().getFullYear()} Boorsok Club · {url.replace(/^https?:\/\//, "")} · Printed for personal home use. Please link to the original rather than republishing.</p>
     </section>
   </article>
 </Base>
@@ -114,13 +115,19 @@ const pinHref = `https://www.pinterest.com/pin/create/button/?url=${encodeURICom
   .steps li { margin-bottom: .9rem; padding-left: .4rem; }
   .steps li::marker { font-family: var(--font-display); color: var(--red); }
   .note { font-size: .85rem; color: var(--ink-soft); margin: 1.5rem 0 0; }
+  .print-credit { display: none; }
   @media (max-width: 760px) {
     .hero { grid-template-columns: 1fr; }
     .photo { order: -1; aspect-ratio: 4 / 3; }
     .cols { grid-template-columns: 1fr; gap: 1.5rem; }
   }
   @media print {
+    :global(body) { background: #fff; font-size: 11pt; line-height: 1.45; }
     .hero, .story, .divider, .print { display: none !important; }
+    .cols { grid-template-columns: .85fr 1.15fr !important; gap: 1.5rem !important; }
+    .ingredients li { padding: .2rem 0; }
+    .steps li { margin-bottom: .4rem; }
     .recipe-card { border: 0; padding: 0; }
+    .print-credit { display: block; margin-top: 1rem; padding-top: .6rem; border-top: 1px solid #ccc; font-size: .8rem; color: #555; }
   }
 </style>
