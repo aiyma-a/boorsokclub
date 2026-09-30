@@ -1,6 +1,7 @@
 ---
 import { u } from '../lib/url';
 import BoorsokMark from '../components/BoorsokMark.astro';
+import { site } from '../data/site';
 import Base from '../layouts/Base.astro';
 ---
 <Base title="Sticker Shop" description="Food stickers inspired by Central Asian cooking, coming soon to Boorsok Club.">
@@ -14,8 +15,10 @@ import Base from '../layouts/Base.astro';
       <li>Inspired by Central Asian food and craft</li>
       <li>Shipping and returns details posted before launch</li>
     </ul>
-    <a class="btn" href={u("/recipes/")}>Browse recipes while you wait</a>
-    <!-- TODO: add "Follow us on Pinterest" link once the account exists -->
+    <div class="cta">
+      <a class="btn" href={site.pinterest} target="_blank" rel="noopener">Follow us on Pinterest</a>
+      <a class="btn ghost" href={u("/recipes/")}>Browse recipes</a>
+    </div>
   </section>
 </Base>
 
@@ -25,5 +28,6 @@ import Base from '../layouts/Base.astro';
   h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); margin: .6rem 0 .8rem; }
   .blurb { color: var(--ink-soft); font-size: 1.15rem; margin: 0 auto 1.8rem; max-width: 520px; }
   .facts { list-style: none; padding: 1.2rem 0; margin: 0 auto 2rem; max-width: 420px; display: grid; gap: .5rem; border-block: 1px solid var(--line); }
+  .cta { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; }
   .facts li::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--red); margin-right: .6rem; vertical-align: 2px; }
 </style>

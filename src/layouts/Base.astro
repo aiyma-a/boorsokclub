@@ -7,6 +7,7 @@ import '@fontsource/nunito/700.css';
 import '../styles/global.css';
 import Logo from '../components/Logo.astro';
 import SiteNav from '../components/SiteNav.astro';
+import { site } from '../data/site';
 import Mountains from '../components/Mountains.astro';
 
 interface Props {
@@ -65,6 +66,7 @@ const year = new Date().getFullYear();
           <div>
             <Logo />
             <p>The table is always set. Come in, sit down, have some tea.</p>
+            <a class="follow" href={site.pinterest} target="_blank" rel="noopener">Follow us on Pinterest →</a>
           </div>
           <nav aria-label="Legal">
             <a href={u("/privacy/")}>Privacy Policy</a>
@@ -87,6 +89,8 @@ const year = new Date().getFullYear();
   .site-footer :global(.logo) { color: #fff; }
   .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem; }
   .foot p { margin: .5rem 0 0; max-width: 340px; }
+  .follow { display: inline-block; margin-top: 1rem; padding: .45rem 1rem; border-radius: 999px; border: 1px solid rgba(255,255,255,.5); color: #fff; text-decoration: none; font-weight: 700; font-size: .9rem; }
+  .follow:hover { background: #fff; color: var(--pine); }
   .foot nav { display: grid; gap: .3rem; }
   .foot nav a { color: #fff; text-decoration: none; }
   .foot nav a:hover { text-decoration: underline; }

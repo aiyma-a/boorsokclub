@@ -5,7 +5,9 @@ description: What information Boorsok Club collects and how it is used.
 updated: 30 September 2026
 ---
 
-<!-- DRAFT template. Update this whenever you add analytics, ads, a newsletter or a shop, and adjust it for the country you're based in. -->
+<!-- Update this page whenever you add analytics, ads, a newsletter or a shop. -->
+
+Boorsok Club is a home recipe website run from **Kyrgyzstan**. This page explains what information the site collects and how it is used.
 
 ## What we collect today
 
@@ -23,8 +25,8 @@ If you email us, we use your address only to reply, and we don't share it.
 
 ## Changes
 
-If we add analytics, advertising, a newsletter or a shop, we'll update this page first and, where required, ask for your consent before setting cookies.
+If we add analytics, advertising, a newsletter or a shop, we'll update this page first. We'll follow the privacy laws that apply to us and to our visitors, including asking visitors from the EU and UK for consent before setting any cookies that need it.
 
 ## Contact
 
-Privacy questions: hello@boorsokclub.com
+Privacy questions: see our [Contact](../contact/) page.

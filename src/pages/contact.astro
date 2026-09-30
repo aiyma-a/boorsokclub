@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+<Base title="Contact" description="Get in touch with Boorsok Club.">
+  <article class="prose page">
+    <h1>Contact</h1>
+    <p class="lede">Questions, recipe requests or collaborations? We'd love to hear from you.</p>
+    <ul class="ways">
+      <li>
+        <span class="label">Pinterest</span>
+        <a href={site.pinterest} target="_blank" rel="noopener">pinterest.com/boorsokclub</a>
+        <span class="note">Follow along and send us a message there.</span>
+      </li>
+      <li>
+        <span class="label">Email</span>
+        {site.email
+          ? <a href={`mailto:${site.email}`}>{site.email}</a>
+          : <span>Coming soon</span>}
+      </li>
+    </ul>
+    <p class="where">Boorsok Club is a home kitchen based in {site.country}.</p>
+  </article>
+</Base>
+
+<style>
+  .page { padding-top: 2.5rem; }
+  h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); margin-bottom: .3rem; }
+  .lede { color: var(--ink-soft); font-size: 1.1rem; }
+  .ways { list-style: none; padding: 0; margin: 1.8rem 0; display: grid; gap: 1rem; }
+  .ways li { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem 1.25rem; display: grid; gap: .15rem; }
+  .label { font-size: .75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--red); }
+  .ways a { font-weight: 700; font-size: 1.1rem; }
+  .note { color: var(--ink-soft); font-size: .92rem; }
+  .where { color: var(--ink-soft); font-size: .95rem; }
+</style>

@@ -5,6 +5,8 @@ description: Terms of use, recipe and nutrition disclaimer, and copyright for Bo
 updated: 30 September 2026
 ---
 
+Boorsok Club is a home recipe website run from Kyrgyzstan. By using the site, you agree to these terms.
+
 ## Recipes and food safety
 
 Recipes are shared for home cooking. Results depend on your ingredients, equipment and technique. Take care with hot oil, knives and raw meat, and follow safe food-handling practices.
