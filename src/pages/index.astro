@@ -86,7 +86,7 @@ const recipes = (await getCollection('recipes')).sort((a, b) => b.data.date.valu
 
 <style>
   .hero { position: relative; background: linear-gradient(180deg, #DFE9EC 0%, #F4EBDF 70%, #F7E3D3 100%); padding-top: clamp(3.5rem, 10vw, 6.5rem); text-align: center; }
-  .sun { position: absolute; right: 14%; bottom: calc(clamp(90px, 14vw, 200px) * .42); width: clamp(34px, 4.5vw, 60px); aspect-ratio: 1; border-radius: 50%; background: var(--red); box-shadow: 0 0 60px 30px rgba(230, 140, 90, .35); }
+  .sun { position: absolute; right: 14%; bottom: calc(clamp(90px, 14vw, 200px) * .42); width: clamp(34px, 4.5vw, 60px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 40% 40%, #FBE3A8 0%, #F3C77A 100%); box-shadow: 0 0 70px 34px rgba(246, 205, 130, .45); }
   .hero :global(.mountains) { position: relative; }
   .hero :global(.mountains .ground) { fill: var(--snow); }
   .inner { max-width: 760px; padding-bottom: clamp(2rem, 5vw, 3rem); }
