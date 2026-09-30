@@ -1,0 +1,70 @@
+---
+import { courses, occasions } from '../data/menu';
+---
+<nav class="site-nav" aria-label="Main">
+  <!-- Desktop: dropdowns open on hover or keyboard focus -->
+  <ul class="desktop">
+    <li class="drop">
+      <a href="/recipes/">Recipes</a>
+      <div class="panel">
+        <a class="all" href="/recipes/">All recipes →</a>
+        <ul>{courses.map((c) => <li><a href={`/recipes/course/${c.slug}/`}>{c.label}</a></li>)}</ul>
+      </div>
+    </li>
+    <li class="drop">
+      <a href="/occasions/">Occasions</a>
+      <div class="panel">
+        <ul>{occasions.map((o) => <li><a href={`/occasions/${o.slug}/`}>{o.label}</a></li>)}</ul>
+      </div>
+    </li>
+    <li><a href="/shop/">Stickers</a></li>
+    <li><a href="/about/">About</a></li>
+  </ul>
+
+  <!-- Mobile: one tap opens the full menu -->
+  <details class="mobile">
+    <summary aria-label="Open menu"><span></span><span></span><span></span></summary>
+    <div class="sheet">
+      <p class="group">Recipes</p>
+      <a href="/recipes/">All recipes</a>
+      {courses.map((c) => <a href={`/recipes/course/${c.slug}/`}>{c.label}</a>)}
+      <p class="group">Occasions</p>
+      {occasions.map((o) => <a href={`/occasions/${o.slug}/`}>{o.label}</a>)}
+      <p class="group">Boorsok Club</p>
+      <a href="/shop/">Stickers</a>
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </details>
+</nav>
+
+<style>
+  .site-nav a { color: var(--ink-soft); text-decoration: none; font-weight: 700; font-size: .95rem; }
+  .site-nav a:hover { color: var(--red); }
+  ul { list-style: none; margin: 0; padding: 0; }
+  .desktop { display: flex; gap: clamp(1rem, 3vw, 2.2rem); }
+  .drop { position: relative; }
+  .drop > a::after { content: ''; display: inline-block; width: 6px; height: 6px; margin-left: .4rem; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-3px) rotate(45deg); }
+  .panel { position: absolute; top: 100%; left: -1.1rem; min-width: 230px; padding: .9rem 1.1rem; margin-top: .6rem; background: #fff; border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 18px 40px -24px rgba(46,43,39,.35);
+    opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity .15s, transform .15s, visibility .15s; }
+  .panel::before { content: ''; position: absolute; inset: -.8rem 0 auto; height: .8rem; } /* hover bridge */
+  .drop:hover .panel, .drop:focus-within .panel { opacity: 1; visibility: visible; transform: none; }
+  .panel li a { display: block; padding: .35rem 0; font-weight: 400; color: var(--ink); }
+  .panel .all { display: block; padding-bottom: .5rem; margin-bottom: .3rem; border-bottom: 1px solid var(--line); color: var(--red); }
+
+  .mobile { display: none; }
+  summary { list-style: none; cursor: pointer; width: 44px; height: 44px; display: grid; place-content: center; gap: 5px; }
+  summary::-webkit-details-marker { display: none; }
+  summary span { display: block; width: 22px; height: 2px; background: var(--ink); transition: transform .2s, opacity .2s; }
+  .mobile[open] summary span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .mobile[open] summary span:nth-child(2) { opacity: 0; }
+  .mobile[open] summary span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .sheet { position: fixed; left: 0; right: 0; top: 72px; bottom: 0; overflow-y: auto; background: var(--snow); padding: 1rem 1.5rem 3rem; display: flex; flex-direction: column; }
+  .sheet a { padding: .55rem 0; font-size: 1.05rem; color: var(--ink); font-weight: 400; border-bottom: 1px solid var(--line); }
+  .group { margin: 1.4rem 0 .2rem; font-size: .75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--red); }
+
+  @media (max-width: 760px) {
+    .desktop { display: none; }
+    .mobile { display: block; }
+  }
+</style>

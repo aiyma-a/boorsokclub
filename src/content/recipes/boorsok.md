@@ -3,6 +3,8 @@ title: Boorsok
 description: Golden, pillowy pieces of fried dough, the snack that shows up on every Kyrgyz table for guests and celebrations.
 date: 2026-09-30
 region: Kyrgyzstan
+course: tea-and-breakfast
+occasions: [guest-table, celebrations]
 prepMinutes: 90
 cookMinutes: 25
 servings: about 60 pieces

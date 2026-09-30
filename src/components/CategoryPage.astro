@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import RecipeCard from './RecipeCard.astro';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  blurb: string;
+  recipes: any[];
+  chips?: { href: string; label: string; active?: boolean }[];
+}
+const { eyebrow, title, blurb, recipes, chips = [] } = Astro.props;
+---
+<Base title={title} description={blurb}>
+  <section class="wrap">
+    <header class="head">
+      <p class="eyebrow">{eyebrow}</p>
+      <h1>{title}</h1>
+      <p class="blurb">{blurb}</p>
+    </header>
+
+    {chips.length > 0 && (
+      <nav class="chips" aria-label="Filter recipes">
+        {chips.map((c) => <a href={c.href} aria-current={c.active ? 'page' : undefined}>{c.label}</a>)}
+      </nav>
+    )}
+
+    {recipes.length > 0
+      ? <div class="grid">{recipes.map((r) => <RecipeCard recipe={r} />)}</div>
+      : <p class="empty">No recipes here yet. The first one is on its way.</p>}
+  </section>
+</Base>
+
+<style>
+  .head { max-width: 620px; margin: 2.8rem 0 1.8rem; }
+  h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); margin: .5rem 0 .6rem; }
+  .blurb { color: var(--ink-soft); font-size: 1.1rem; margin: 0; }
+  .chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2.2rem; }
+  .chips a { padding: .4rem .95rem; border-radius: 999px; border: 1px solid var(--line); color: var(--ink); text-decoration: none; font-size: .9rem; font-weight: 700; background: #fff; }
+  .chips a:hover { border-color: var(--ink); }
+  .chips a[aria-current='page'] { background: var(--ink); border-color: var(--ink); color: var(--snow); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 2.5rem 1.75rem; }
+  .empty { padding: 3rem 1.5rem; text-align: center; color: var(--ink-soft); border: 1px dashed var(--line); border-radius: 14px; }
+</style>

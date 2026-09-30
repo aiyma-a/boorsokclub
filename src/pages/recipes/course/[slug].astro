@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content';
+import CategoryPage from '../../../components/CategoryPage.astro';
+import { courses } from '../../../data/menu';
+
+export function getStaticPaths() {
+  return courses.map((course) => ({ params: { slug: course.slug }, props: { course } }));
+}
+
+const { course } = Astro.props;
+const recipes = (await getCollection('recipes', (r) => r.data.course === course.slug)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const chips = [{ href: '/recipes/', label: 'All' }, ...courses.map((c) => ({ href: `/recipes/course/${c.slug}/`, label: c.label, active: c.slug === course.slug }))];
+---
+<CategoryPage eyebrow="Recipes" title={course.label} blurb={course.blurb} recipes={recipes} chips={chips} />

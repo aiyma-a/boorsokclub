@@ -5,6 +5,7 @@ import '@fontsource/nunito/400.css';
 import '@fontsource/nunito/700.css';
 import '../styles/global.css';
 import Logo from '../components/Logo.astro';
+import SiteNav from '../components/SiteNav.astro';
 import Mountains from '../components/Mountains.astro';
 
 interface Props {
@@ -49,11 +50,7 @@ const year = new Date().getFullYear();
     <header class="site-header">
       <div class="wrap bar">
         <Logo />
-        <nav aria-label="Main">
-          <a href="/recipes/">Recipes</a>
-          <a href="/about/">About</a>
-          <a href="/shop/">Stickers</a>
-        </nav>
+        <SiteNav />
       </div>
     </header>
 
@@ -81,11 +78,8 @@ const year = new Date().getFullYear();
 </html>
 
 <style>
-  .site-header { border-top: 3px solid var(--red); background: color-mix(in srgb, var(--snow) 92%, transparent); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 5; backdrop-filter: blur(8px); }
+  .site-header { border-top: 3px solid var(--red); background: var(--snow); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 5; }
   .bar { display: flex; align-items: center; justify-content: space-between; min-height: 68px; gap: 1rem; }
-  .bar nav { display: flex; gap: clamp(.8rem, 3vw, 2.2rem); }
-  .bar nav a { color: var(--ink-soft); text-decoration: none; font-weight: 700; font-size: .95rem; }
-  .bar nav a:hover { color: var(--ink); }
   .site-footer { margin-top: 6rem; }
   .foot-inner { background: var(--pine); color: #fff; padding: 2.5rem 0 1.5rem; margin-top: -1px; }
   .site-footer :global(.logo), .site-footer :global(.logo svg) { color: #fff; }
