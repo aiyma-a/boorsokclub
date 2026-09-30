@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import BoorsokMark from '../components/BoorsokMark.astro';
 import Base from '../layouts/Base.astro';
 import RecipeCard from '../components/RecipeCard.astro';
 import Mountains from '../components/Mountains.astro';
@@ -50,10 +51,7 @@ const recipes = (await getCollection('recipes')).sort((a, b) => b.data.date.valu
           {occasions.map((o) => <a href={`/occasions/${o.slug}/`}>{o.label}</a>)}
         </div>
       </div>
-      <svg class="band-mark" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
-        <circle cx="16" cy="16" r="12"/>
-        <path d="M10 8.5 L22 23.5 M22 8.5 L10 23.5 M16 4 L16 28"/>
-      </svg>
+        <span class="band-mark"><BoorsokMark mono size={220} /></span>
     </div>
   </section>
 
@@ -114,7 +112,8 @@ const recipes = (await getCollection('recipes')).sort((a, b) => b.data.date.valu
   .occ { display: flex; flex-wrap: wrap; gap: .5rem; }
   .occ a { padding: .45rem 1rem; border-radius: 999px; border: 1px solid rgba(255,255,255,.45); color: #fff; text-decoration: none; font-weight: 700; font-size: .9rem; }
   .occ a:hover { background: #fff; color: var(--red); }
-  .band-mark { width: clamp(120px, 18vw, 220px); height: auto; color: rgba(255,255,255,.25); }
+  .band-mark { color: rgba(255,255,255,.3); }
+  .band-mark :global(svg) { width: clamp(120px, 18vw, 220px); height: auto; display: block; }
 
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 2.5rem 1.75rem; }
 

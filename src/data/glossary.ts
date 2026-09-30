@@ -9,7 +9,7 @@ export const glossary = [
   { term: 'Lagman', slug: 'lagman', group: 'Dishes', text: 'Thick hand-pulled noodles topped with a sauce of stir-fried meat and vegetables. Rooted in Uyghur and Dungan cooking.' },
   { term: 'Samsa', slug: 'samsa', group: 'Dishes', text: 'Flaky baked pastry filled with meat and onion, traditionally baked on the wall of a tandoor.' },
   { term: 'Shorpo', slug: 'shorpo', group: 'Dishes', text: 'A clear meat broth with large pieces of meat, potato and vegetables.' },
-  { term: 'Boorsok', slug: 'boorsok', group: 'Dishes', text: 'Small puffed pieces of fried dough, piled high on the table for guests and celebrations.' },
+  { term: 'Boorsok', slug: 'boorsok', group: 'Dishes', text: 'Small puffed pieces of fried dough, piled high on the table for guests and celebrations. Also our logo and our name.' },
   { term: 'Kattama', slug: 'kattama', group: 'Dishes', text: 'A flaky, layered flatbread cooked in a pan, often served with tea.' },
   { term: 'Chak-chak', slug: 'chak-chak', group: 'Dishes', text: 'Little pieces of fried dough bound together with honey. Tatar in origin and loved across the region.' },
   { term: 'Achichuk', slug: 'achichuk', group: 'Dishes', text: 'A fresh salad of thinly sliced tomato and onion, served alongside plov to cut its richness.' },
@@ -31,7 +31,7 @@ export const glossary = [
 
   // Culture
   { term: 'Boz üy', slug: 'boz-uy', group: 'Culture', text: 'The Kyrgyz word for a yurt, the round felt home of nomadic families. It means "grey house".' },
-  { term: 'Tunduk', slug: 'tunduk', group: 'Culture', text: 'The wooden crown at the top of a yurt that lets in light and lets out smoke. A symbol of home and family, and the inspiration for our logo.' },
+  { term: 'Tunduk', slug: 'tunduk', group: 'Culture', text: 'The wooden crown at the top of a yurt that lets in light and lets out smoke. A symbol of home and family.' },
   { term: 'Shyrdak', slug: 'shyrdak', group: 'Culture', text: 'A hand-stitched felt rug with bold, mirrored patterns, often in red and cream.' },
   { term: 'Nooruz', slug: 'nooruz', group: 'Culture', text: 'The spring new year, celebrated on 21 March with family gatherings and special dishes like sumolok.' },
 ];
