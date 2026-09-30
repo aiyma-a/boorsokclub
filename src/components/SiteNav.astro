@@ -18,7 +18,15 @@ import SearchForm from './SearchForm.astro';
         <ul>{occasions.map((o) => <li><a href={`/occasions/${o.slug}/`}>{o.label}</a></li>)}</ul>
       </div>
     </li>
-    <li><a href="/glossary/">Glossary</a></li>
+    <li class="drop">
+      <a href="/pantry/">Guides</a>
+      <div class="panel">
+        <ul>
+          <li><a href="/pantry/">Central Asian Pantry</a></li>
+          <li><a href="/glossary/">Glossary</a></li>
+        </ul>
+      </div>
+    </li>
     <li><a href="/shop/">Sticker Shop <span class="soon">Soon</span></a></li>
     <li><a href="/about/">About</a></li>
     <li>
@@ -39,8 +47,10 @@ import SearchForm from './SearchForm.astro';
       {courses.map((c) => <a href={`/recipes/course/${c.slug}/`}>{c.label}</a>)}
       <p class="group">Occasions</p>
       {occasions.map((o) => <a href={`/occasions/${o.slug}/`}>{o.label}</a>)}
-      <p class="group">Boorsok Club</p>
+      <p class="group">Guides</p>
+      <a href="/pantry/">Central Asian Pantry</a>
       <a href="/glossary/">Glossary</a>
+      <p class="group">Boorsok Club</p>
       <a href="/shop/">Sticker Shop <span class="soon">Soon</span></a>
       <a href="/about/">About</a>
       <a href="/contact/">Contact</a>

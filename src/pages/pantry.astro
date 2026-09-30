@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+import { pantry } from '../data/pantry';
+
+const slug = (s: string) => s.toLowerCase().replace(/[^a-z]+/g, '-').replace(/^-|-$/g, '');
+---
+<Base title="Central Asian Pantry" description="The spices, staples, dairy and tools for Central Asian cooking, with easy swaps for what you can't find.">
+  <section class="wrap">
+    <header class="head">
+      <p class="eyebrow">Guide</p>
+      <h1>The Central Asian pantry</h1>
+      <p class="blurb">What to keep in your kitchen for plov, manti and more, with an easy swap for anything you can't find nearby. Central Asian, Russian, Turkish and Persian grocers stock most of it.</p>
+      <nav class="jump" aria-label="Pantry sections">
+        {pantry.map((s) => <a href={`#${slug(s.group)}`}>{s.group}</a>)}
+      </nav>
+    </header>
+
+    {pantry.map((section) => (
+      <section class="group" id={slug(section.group)}>
+        <div class="group-head">
+          <h2>{section.group}</h2>
+          <p>{section.intro}</p>
+        </div>
+        <ul class="items">
+          {section.items.map((item) => (
+            <li>
+              <h3>
+                {'glossary' in item && item.glossary
+                  ? <a href={`/glossary/#${item.glossary}`}>{item.name}</a>
+                  : item.name}
+              </h3>
+              <p>{item.use}</p>
+              {item.swap && <p class="swap"><strong>Can't find it?</strong> {item.swap}</p>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </section>
+</Base>
+
+<style>
+  .head { max-width: 640px; margin: 2.8rem 0 2.5rem; }
+  h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); margin: .5rem 0 .6rem; }
+  .blurb { color: var(--ink-soft); font-size: 1.1rem; margin: 0 0 1.4rem; }
+  .jump { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .jump a { padding: .4rem .95rem; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--ink); text-decoration: none; font-size: .9rem; font-weight: 700; }
+  .jump a:hover { border-color: var(--ink); }
+  .group { display: grid; grid-template-columns: 260px 1fr; gap: 2rem; padding: 2rem 0; border-top: 1px solid var(--line); scroll-margin-top: 90px; }
+  .group-head h2 { font-size: 1.6rem; margin: 0 0 .5rem; }
+  .group-head h2::after { content: ''; display: block; width: 40px; height: 2px; background: var(--red); margin-top: .6rem; }
+  .group-head p { color: var(--ink-soft); margin: 0; font-size: .97rem; }
+  .items { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+  .items li { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem 1.25rem; }
+  h3 { font-size: 1.2rem; margin: 0 0 .35rem; }
+  h3 a { color: var(--ink); text-decoration-color: var(--line); }
+  h3 a:hover { color: var(--red); }
+  .items p { margin: 0; color: var(--ink-soft); font-size: .95rem; line-height: 1.6; }
+  .swap { margin-top: .6rem !important; padding-top: .6rem; border-top: 1px dashed var(--line); }
+  .swap strong { color: var(--red); font-weight: 700; }
+  @media (max-width: 860px) { .group { grid-template-columns: 1fr; gap: 1rem; } }
+</style>

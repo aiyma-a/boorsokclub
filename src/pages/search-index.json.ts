@@ -1,5 +1,6 @@
 import { getCollection } from 'astro:content';
 import { glossary } from '../data/glossary';
+import { pantry } from '../data/pantry';
 import { courses, occasions } from '../data/menu';
 
 // Static search index, built once at build time. No third-party search service.
@@ -23,6 +24,13 @@ export async function GET() {
       summary: g.text,
       keywords: g.group,
     })),
+    ...pantry.flatMap((section) => section.items.map((item) => ({
+      type: 'Pantry',
+      title: item.name,
+      url: '/pantry/',
+      summary: item.use,
+      keywords: [section.group, item.swap ?? ''].join(' '),
+    }))),
     ...courses.map((c) => ({ type: 'Category', title: c.label, url: `/recipes/course/${c.slug}/`, summary: c.blurb, keywords: '' })),
     ...occasions.map((o) => ({ type: 'Occasion', title: o.label, url: `/occasions/${o.slug}/`, summary: o.blurb, keywords: '' })),
   ];

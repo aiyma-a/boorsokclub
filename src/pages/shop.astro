@@ -1,53 +1,30 @@
 ---
 import Base from '../layouts/Base.astro';
-
-const previews = [
-  { src: '/stickers/plov.svg', name: 'I plov you' },
-  { src: '/stickers/dumpling.svg', name: 'Dumpling of joy' },
-];
 ---
 <Base title="Sticker Shop" description="Food stickers inspired by Central Asian cooking, coming soon to Boorsok Club.">
-  <section class="wrap shop">
-    <div class="intro">
-      <p class="eyebrow">Sticker Shop · Coming soon</p>
-      <h1>Stickers from our kitchen, coming soon</h1>
-      <p class="blurb">Cheerful kazans, manti and boorsok, drawn by us and inspired by the dishes on this site. The first set is being designed now.</p>
-      <ul class="facts">
-        <li>Original designs, drawn in-house</li>
-        <li>Inspired by Central Asian food and craft</li>
-        <li>Shipping and returns details posted before launch</li>
-      </ul>
-      <a class="btn" href="/recipes/">Browse recipes while you wait</a>
-      <!-- TODO: add "Follow us on Pinterest" link once the account exists -->
-    </div>
-
-    <div class="previews" aria-label="Sticker previews">
-      {previews.map((p) => (
-        <figure>
-          <img src={p.src} alt={`Sticker preview: ${p.name}`} width="600" height="600" />
-          <figcaption>{p.name} <span>Preview</span></figcaption>
-        </figure>
-      ))}
-      <figure class="more" aria-hidden="true">
-        <div>More designs<br />on the way</div>
-      </figure>
-    </div>
+  <section class="prose shop">
+    <svg class="mark" viewBox="0 0 32 32" width="56" height="56" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+      <circle cx="16" cy="16" r="12"/>
+      <path d="M10 8.5 L22 23.5 M22 8.5 L10 23.5 M16 4 L16 28"/>
+    </svg>
+    <p class="eyebrow">Sticker Shop · Coming soon</p>
+    <h1>Stickers from our kitchen, coming soon</h1>
+    <p class="blurb">Our first set of food stickers, inspired by the dishes on this site, is in the works.</p>
+    <ul class="facts">
+      <li>Original designs, drawn by us</li>
+      <li>Inspired by Central Asian food and craft</li>
+      <li>Shipping and returns details posted before launch</li>
+    </ul>
+    <a class="btn" href="/recipes/">Browse recipes while you wait</a>
+    <!-- TODO: add "Follow us on Pinterest" link once the account exists -->
   </section>
 </Base>
 
 <style>
-  .shop { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; padding-top: clamp(2rem, 5vw, 3.5rem); }
-  h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); margin: .5rem 0 .8rem; }
-  .blurb { color: var(--ink-soft); font-size: 1.12rem; margin: 0 0 1.3rem; }
-  .facts { list-style: none; padding: 0; margin: 0 0 1.8rem; display: grid; gap: .45rem; }
-  .facts li { padding-left: 1.4rem; position: relative; }
-  .facts li::before { content: ''; position: absolute; left: 0; top: .6em; width: 8px; height: 8px; border-radius: 50%; background: var(--red); }
-  .previews { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  figure { margin: 0; background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: .75rem .75rem 1rem; }
-  figure img { width: 100%; height: auto; display: block; }
-  figcaption { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-display); font-size: 1.05rem; padding: 0 .4rem; }
-  figcaption span { font-family: var(--font-body); font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--red); }
-  .more { grid-column: span 2; display: grid; place-items: center; min-height: 110px; border-style: dashed; background: transparent; }
-  .more div { text-align: center; color: var(--ink-soft); font-weight: 700; font-size: .9rem; letter-spacing: .04em; }
-  @media (max-width: 860px) { .shop { grid-template-columns: 1fr; } }
+  .shop { text-align: center; padding-top: clamp(3rem, 8vw, 5.5rem); }
+  .mark { color: var(--red); margin-bottom: 1rem; }
+  h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); margin: .6rem 0 .8rem; }
+  .blurb { color: var(--ink-soft); font-size: 1.15rem; margin: 0 auto 1.8rem; max-width: 520px; }
+  .facts { list-style: none; padding: 1.2rem 0; margin: 0 auto 2rem; max-width: 420px; display: grid; gap: .5rem; border-block: 1px solid var(--line); }
+  .facts li::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--red); margin-right: .6rem; vertical-align: 2px; }
 </style>
