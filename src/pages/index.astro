@@ -3,6 +3,8 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import RecipeCard from '../components/RecipeCard.astro';
 import Mountains from '../components/Mountains.astro';
+import CourseIcon from '../components/CourseIcon.astro';
+import { courses, occasions } from '../data/menu';
 
 const recipes = (await getCollection('recipes')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
@@ -12,35 +14,126 @@ const recipes = (await getCollection('recipes')).sort((a, b) => b.data.date.valu
       <p class="eyebrow">Kosh keliñiz · Welcome</p>
       <h1>Home cooking from the mountains and steppes of Central Asia</h1>
       <p class="lede">Simple recipes for plov, manti, boorsok and more, and the stories of the table they're shared around.</p>
-      <a class="btn" href="/recipes/">Browse recipes</a>
+      <div class="cta">
+        <a class="btn" href="/recipes/">Browse recipes</a>
+        <a class="btn ghost" href="/pantry/">Stock your pantry</a>
+      </div>
     </div>
     <div class="sun" aria-hidden="true"></div>
     <Mountains />
   </section>
 
-  <section class="wrap welcome">
-    <p>In Central Asia, a guest never leaves hungry. Tea is poured before you've sat down, and the table fills with bread, fruit and something warm from the kazan. These recipes are made to be shared the same way.</p>
+  <!-- Browse by course -->
+  <section class="wrap courses">
+    <div class="section-head">
+      <h2>What are you cooking today?</h2>
+      <a href="/recipes/">All recipes →</a>
+    </div>
+    <div class="tiles">
+      {courses.map((c) => (
+        <a class="tile" href={`/recipes/course/${c.slug}/`} style={`--c: ${c.color}`}>
+          <CourseIcon slug={c.slug} size={44} />
+          <span>{c.label}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- Hospitality band -->
+  <section class="table-band">
+    <div class="wrap band-inner">
+      <div>
+        <p class="eyebrow light">The dastorkon</p>
+        <blockquote>In Central Asia, a guest never leaves hungry. Tea is poured before you've sat down, and the table fills with bread, fruit and something warm from the kazan.</blockquote>
+        <p class="band-note">These recipes are made to be shared the same way. Cook for the moment:</p>
+        <div class="occ">
+          {occasions.map((o) => <a href={`/occasions/${o.slug}/`}>{o.label}</a>)}
+        </div>
+      </div>
+      <svg class="band-mark" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
+        <circle cx="16" cy="16" r="12"/>
+        <path d="M10 8.5 L22 23.5 M22 8.5 L10 23.5 M16 4 L16 28"/>
+      </svg>
+    </div>
   </section>
 
   <section class="wrap">
-    <h2>Latest recipes</h2>
+    <div class="section-head">
+      <h2>Fresh from the kazan</h2>
+      <a href="/recipes/">See all →</a>
+    </div>
     <div class="grid">
       {recipes.map((r) => <RecipeCard recipe={r} />)}
     </div>
   </section>
+
+  <!-- New to Central Asian cooking -->
+  <section class="wrap guides">
+    <a class="guide pantry" href="/pantry/">
+      <p class="eyebrow">Guide</p>
+      <h3>The Central Asian pantry</h3>
+      <p>The spices, staples and tools to keep at home, plus an easy swap for anything you can't find.</p>
+      <span>Open the guide →</span>
+    </a>
+    <a class="guide words" href="/glossary/">
+      <p class="eyebrow">Glossary</p>
+      <h3>Words from our kitchen</h3>
+      <p>Kazan, kurut, dastorkon: the words you'll meet in our recipes, explained simply.</p>
+      <span>Learn the words →</span>
+    </a>
+  </section>
 </Base>
 
 <style>
-  .hero { position: relative; background: linear-gradient(180deg, #E4ECEE 0%, var(--snow) 100%); padding-top: clamp(3.5rem, 10vw, 6.5rem); text-align: center; }
-  .sun { position: absolute; right: 14%; bottom: calc(clamp(90px, 14vw, 200px) * .42); width: clamp(34px, 4.5vw, 60px); aspect-ratio: 1; border-radius: 50%; background: var(--red); opacity: .9; }
+  .hero { position: relative; background: linear-gradient(180deg, #DFE9EC 0%, #F4EBDF 70%, #F7E3D3 100%); padding-top: clamp(3.5rem, 10vw, 6.5rem); text-align: center; }
+  .sun { position: absolute; right: 14%; bottom: calc(clamp(90px, 14vw, 200px) * .42); width: clamp(34px, 4.5vw, 60px); aspect-ratio: 1; border-radius: 50%; background: var(--red); box-shadow: 0 0 60px 30px rgba(230, 140, 90, .35); }
   .hero :global(.mountains) { position: relative; }
+  .hero :global(.mountains .ground) { fill: var(--snow); }
   .inner { max-width: 760px; padding-bottom: clamp(2rem, 5vw, 3rem); }
   h1 { font-size: clamp(2.3rem, 6vw, 3.9rem); margin: .8rem 0 1.1rem; }
   .lede { font-size: 1.15rem; color: var(--ink-soft); margin: 0 auto 2rem; max-width: 540px; }
-  .hero :global(.mountains .ground) { fill: var(--snow); }
-  .welcome { max-width: 640px; text-align: center; margin-block: 1.5rem 4.5rem; }
-  .welcome p { font-family: var(--font-display); font-style: italic; font-size: clamp(1.2rem, 2.4vw, 1.5rem); line-height: 1.55; color: var(--ink-soft); margin: 0; }
-  h2 { font-size: 1.9rem; margin-bottom: 1.5rem; }
-  h2::after { content: ""; display: block; width: 40px; height: 2px; background: var(--red); margin-top: .6rem; }
+  .cta { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; }
+  .cta .ghost { background: rgba(255,255,255,.6); }
+
+  .section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 1.5rem; }
+  .section-head h2 { font-size: clamp(1.7rem, 3.5vw, 2.2rem); margin: 0; }
+  .section-head a { font-weight: 700; color: var(--red); text-decoration: none; white-space: nowrap; }
+
+  .courses { margin-top: 1.5rem; margin-bottom: 5rem; }
+  .tiles { display: grid; grid-template-columns: repeat(7, 1fr); gap: .9rem; }
+  .tile { display: grid; justify-items: center; align-content: center; gap: .7rem; aspect-ratio: 1; padding: .8rem; border-radius: 18px; text-align: center; text-decoration: none;
+    background: color-mix(in srgb, var(--c) 28%, #fff); color: color-mix(in srgb, var(--c) 40%, #2E2B27); transition: transform .2s, background .2s; }
+  .tile span { font-weight: 700; font-size: .92rem; line-height: 1.25; color: var(--ink); }
+  .tile:hover { transform: translateY(-3px); background: color-mix(in srgb, var(--c) 45%, #fff); }
+
+  .table-band { background: var(--red); color: #FBEFEA; margin-bottom: 5rem; overflow: hidden; }
+  .band-inner { display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center; padding-block: clamp(3rem, 7vw, 4.5rem); }
+  .eyebrow.light { color: #F6C9B8; }
+  blockquote { margin: .8rem 0 1rem; font-family: var(--font-display); font-style: italic; font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.4; color: #fff; max-width: 760px; }
+  .band-note { margin: 0 0 1rem; opacity: .9; }
+  .occ { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .occ a { padding: .45rem 1rem; border-radius: 999px; border: 1px solid rgba(255,255,255,.45); color: #fff; text-decoration: none; font-weight: 700; font-size: .9rem; }
+  .occ a:hover { background: #fff; color: var(--red); }
+  .band-mark { width: clamp(120px, 18vw, 220px); height: auto; color: rgba(255,255,255,.25); }
+
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 2.5rem 1.75rem; }
+
+  .guides { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 5rem; }
+  .guide { display: block; padding: clamp(1.5rem, 4vw, 2.5rem); border-radius: 20px; text-decoration: none; color: var(--ink); transition: transform .2s; }
+  .guide:hover { transform: translateY(-3px); }
+  .pantry { background: #F3E3C9; }
+  .words { background: #DCE8E6; }
+  .guide h3 { font-size: clamp(1.5rem, 3vw, 1.9rem); margin: .4rem 0 .6rem; }
+  .guide p { margin: 0 0 1.2rem; color: var(--ink-soft); max-width: 420px; }
+  .guide span { font-weight: 700; color: var(--red); }
+
+  @media (max-width: 1000px) { .tiles { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 640px) {
+    .tiles { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 42%; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 1.25rem; padding-bottom: .5rem; margin-inline: -1.25rem; padding-inline: 1.25rem; scrollbar-width: none; }
+    .tile { scroll-snap-align: start; }
+    .tile { aspect-ratio: 1; }
+    .band-inner { grid-template-columns: 1fr; }
+    .band-mark { display: none; }
+    .guides { grid-template-columns: 1fr; }
+  }
 </style>

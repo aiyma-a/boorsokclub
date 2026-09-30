@@ -5,7 +5,7 @@ const { title, description, image, imageAlt, region, prepMinutes, cookMinutes } 
 ---
 <a class="card" href={`/recipes/${recipe.id}/`}>
   <div class="thumb">
-    {image ? <img src={image} alt={imageAlt ?? title} loading="lazy" /> : <Placeholder label={title} />}
+    {image ? <img src={image} alt={imageAlt ?? title} loading="lazy" /> : <Placeholder label={title} course={recipe.data.course} />}
   </div>
   <p class="eyebrow">{region} · {prepMinutes + cookMinutes} min</p>
   <h3>{title}</h3>

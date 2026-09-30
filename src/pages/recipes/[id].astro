@@ -49,7 +49,7 @@ const pinHref = `https://www.pinterest.com/pin/create/button/?url=${encodeURICom
         </div>
       </div>
       <div class="photo">
-        {d.image ? <img src={d.image} alt={d.imageAlt ?? d.title} /> : <Placeholder label={d.title} />}
+        {d.image ? <img src={d.image} alt={d.imageAlt ?? d.title} /> : <Placeholder label={d.title} course={d.course} />}
       </div>
     </header>
 
