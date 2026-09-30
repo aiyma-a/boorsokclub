@@ -1,0 +1,127 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Placeholder from '../../components/Placeholder.astro';
+import Ornament from '../../components/Ornament.astro';
+
+export async function getStaticPaths() {
+  const recipes = await getCollection('recipes');
+  return recipes.map((recipe) => ({ params: { id: recipe.id }, props: { recipe } }));
+}
+
+const { recipe } = Astro.props;
+const d = recipe.data;
+const { Content } = await render(recipe);
+const url = new URL(`/recipes/${recipe.id}/`, Astro.site).href;
+const imageUrl = d.image ? new URL(d.image, Astro.site).href : undefined;
+
+// schema.org Recipe: what Pinterest Rich Pins and Google recipe results read.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Recipe',
+  name: d.title,
+  description: d.description,
+  image: imageUrl ? [imageUrl] : undefined,
+  author: { '@type': 'Organization', name: 'Boorsok Club' },
+  datePublished: d.date.toISOString().slice(0, 10),
+  prepTime: `PT${d.prepMinutes}M`,
+  cookTime: `PT${d.cookMinutes}M`,
+  totalTime: `PT${d.prepMinutes + d.cookMinutes}M`,
+  recipeYield: d.servings,
+  recipeCuisine: d.region,
+  keywords: d.tags.join(', '),
+  recipeIngredient: d.ingredients,
+  recipeInstructions: d.steps.map((text) => ({ '@type': 'HowToStep', text })),
+};
+
+// Plain share link: no Pinterest script, so no third-party tracking on page load.
+const pinHref = `https://www.pinterest.com/pin/create/button/?url=${encodeURIComponent(url)}&description=${encodeURIComponent(d.title)}${imageUrl ? `&media=${encodeURIComponent(imageUrl)}` : ''}`;
+---
+<Base title={d.title} description={d.description} image={d.image} type="article" jsonLd={jsonLd}>
+  <article>
+    <header class="hero wrap">
+      <div class="intro">
+        <p class="eyebrow">{d.region}</p>
+        <h1>{d.title}</h1>
+        <p class="lede">{d.description}</p>
+        <div class="actions">
+          <a class="btn" href="#recipe">Jump to recipe ↓</a>
+          <a class="btn ghost" href={pinHref} target="_blank" rel="noopener">Save to Pinterest</a>
+        </div>
+      </div>
+      <div class="photo">
+        {d.image ? <img src={d.image} alt={d.imageAlt ?? d.title} /> : <Placeholder label={d.title} />}
+      </div>
+    </header>
+
+    <div class="prose story">
+      <Content />
+    </div>
+
+    <Ornament />
+
+    <section id="recipe" class="recipe-card prose" aria-labelledby="card-title">
+      <div class="card-head">
+        <h2 id="card-title">{d.title}</h2>
+        <button class="btn ghost print" type="button" onclick="window.print()">Print recipe</button>
+      </div>
+      <dl class="facts">
+        <div><dt>Prep</dt><dd>{d.prepMinutes} min</dd></div>
+        <div><dt>Cook</dt><dd>{d.cookMinutes} min</dd></div>
+        <div><dt>Total</dt><dd>{d.prepMinutes + d.cookMinutes} min</dd></div>
+        <div><dt>Makes</dt><dd>{d.servings}</dd></div>
+      </dl>
+      {d.allergens.length > 0 && (
+        <p class="allergens"><strong>Contains:</strong> {d.allergens.join(', ')}</p>
+      )}
+      <div class="cols">
+        <div>
+          <h3>Ingredients</h3>
+          <ul class="ingredients">{d.ingredients.map((i) => <li>{i}</li>)}</ul>
+        </div>
+        <div>
+          <h3>Method</h3>
+          <ol class="steps">{d.steps.map((s) => <li>{s}</li>)}</ol>
+        </div>
+      </div>
+      <p class="note">Times and yields are a guide. Allergen notes cover common allergens only, so always check your own ingredient labels.</p>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center; padding-block: clamp(2rem, 6vw, 4.5rem) 2rem; }
+  .eyebrow { margin: 0; font-size: .8rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--teal); }
+  h1 { font-size: clamp(2.4rem, 6vw, 4rem); margin: .4rem 0 1rem; }
+  .lede { font-size: 1.2rem; color: var(--ink-soft); margin: 0 0 1.6rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+  .photo { aspect-ratio: 4 / 5; border-radius: 24px; overflow: hidden; background: var(--cream-2); }
+  .photo img { width: 100%; height: 100%; object-fit: cover; }
+  .story { font-size: 1.1rem; }
+  .story :global(h2) { font-size: 1.7rem; margin-top: 2.2rem; }
+  .recipe-card { background: var(--paper); border-radius: 24px; padding: clamp(1.25rem, 4vw, 2.5rem); box-shadow: inset 0 0 0 2px var(--cream-2); scroll-margin-top: 90px; }
+  .card-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .card-head h2 { margin: 0; font-size: 2rem; }
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: .5rem; margin: 1.5rem 0 1rem; }
+  .facts div { background: var(--cream); border-radius: 14px; padding: .7rem .8rem; text-align: center; }
+  dt { font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--teal); }
+  dd { margin: 0; font-weight: 800; }
+  .allergens { background: #FBE6DF; border-left: 4px solid var(--red); padding: .6rem .9rem; border-radius: 8px; }
+  .cols { display: grid; grid-template-columns: .8fr 1.2fr; gap: 2rem; }
+  .ingredients { padding-left: 1.1rem; }
+  .ingredients li { margin-bottom: .35rem; }
+  .steps { padding-left: 1.3rem; }
+  .steps li { margin-bottom: .8rem; padding-left: .3rem; }
+  .steps li::marker { font-family: var(--font-display); font-weight: 700; color: var(--red); }
+  .note { font-size: .85rem; color: var(--ink-soft); margin-bottom: 0; }
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; }
+    .photo { order: -1; aspect-ratio: 4 / 3; }
+    .cols { grid-template-columns: 1fr; gap: 0; }
+    .facts { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media print {
+    .hero, .story, .ornament, .print { display: none !important; }
+    .recipe-card { box-shadow: none; padding: 0; }
+  }
+</style>

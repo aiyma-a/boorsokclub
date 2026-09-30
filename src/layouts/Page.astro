@@ -1,0 +1,18 @@
+---
+import Base from './Base.astro';
+const { frontmatter } = Astro.props;
+---
+<Base title={frontmatter.title} description={frontmatter.description}>
+  <article class="prose page">
+    <h1>{frontmatter.title}</h1>
+    {frontmatter.updated && <p class="updated">Last updated {frontmatter.updated}</p>}
+    <slot />
+  </article>
+</Base>
+
+<style>
+  .page { padding-top: 2.5rem; }
+  h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); margin-bottom: .3rem; }
+  .updated { color: var(--ink-soft); font-size: .9rem; margin-top: 0; }
+  .page :global(h2) { font-size: 1.5rem; margin-top: 2.2rem; }
+</style>

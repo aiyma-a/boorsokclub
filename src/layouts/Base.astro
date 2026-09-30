@@ -1,0 +1,94 @@
+---
+import '@fontsource/fraunces/600.css';
+import '@fontsource/fraunces/700.css';
+import '@fontsource/nunito/400.css';
+import '@fontsource/nunito/800.css';
+import '../styles/global.css';
+import Logo from '../components/Logo.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article';
+  jsonLd?: Record<string, unknown>;
+}
+
+const { title, description, image, type = 'website', jsonLd } = Astro.props;
+const fullTitle = title === 'Boorsok Club' ? title : `${title} | Boorsok Club`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = image ? new URL(image, Astro.site).href : undefined;
+const year = new Date().getFullYear();
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <!-- Open Graph: Pinterest and other sites read these for previews and Rich Pins -->
+    <meta property="og:site_name" content="Boorsok Club" />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+
+    <!-- Pinterest domain claim: paste the content value from Pinterest > Settings > Claimed accounts -->
+    <!-- <meta name="p:domain_verify" content="PASTE_CODE_HERE" /> -->
+
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap bar">
+        <Logo />
+        <nav aria-label="Main">
+          <a href="/recipes/">Recipes</a>
+          <a href="/about/">About</a>
+          <a href="/shop/">Stickers</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main"><slot /></main>
+
+    <footer class="site-footer">
+      <div class="wrap foot">
+        <div>
+          <Logo />
+          <p>Central Asian home cooking, one kazan at a time.</p>
+        </div>
+        <nav aria-label="Legal">
+          <a href="/privacy/">Privacy Policy</a>
+          <a href="/disclosure/">Affiliate Disclosure</a>
+          <a href="/terms/">Terms &amp; Disclaimer</a>
+          <a href="/contact/">Contact</a>
+        </nav>
+      </div>
+      <p class="wrap copy">© {year} Boorsok Club. All recipes, photos and illustrations are original unless noted.</p>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .site-header { background: var(--cream); border-bottom: 1px solid rgba(58,31,26,.1); position: sticky; top: 0; z-index: 5; backdrop-filter: blur(6px); }
+  .bar { display: flex; align-items: center; justify-content: space-between; min-height: 72px; gap: 1rem; }
+  .bar nav { display: flex; gap: clamp(.9rem, 3vw, 2rem); }
+  .bar nav a { color: var(--ink); text-decoration: none; font-weight: 800; }
+  .bar nav a:hover { color: var(--red); }
+  .site-footer { margin-top: 5rem; background: var(--ink); color: var(--cream); padding: 3rem 0 1.5rem; }
+  .site-footer :global(.logo) { color: var(--cream); }
+  .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem; }
+  .foot p { margin: .5rem 0 0; opacity: .8; }
+  .foot nav { display: grid; gap: .4rem; }
+  .foot nav a { color: var(--cream); }
+  .copy { margin-top: 2.5rem; font-size: .85rem; opacity: .65; }
+  @media (max-width: 520px) { .bar :global(.logo span) { display: none; } }
+  @media print { .site-header, .site-footer, .skip { display: none; } body { background: #fff; } }
+</style>

@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import RecipeCard from '../components/RecipeCard.astro';
+import Ornament from '../components/Ornament.astro';
+
+const recipes = (await getCollection('recipes')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<Base title="Boorsok Club" description="Central Asian home cooking: Kyrgyz, Kazakh and Uzbek recipes, from plov to boorsok, written for home kitchens.">
+  <section class="hero">
+    <div class="wrap inner">
+      <p class="eyebrow">Central Asian home cooking</p>
+      <h1>Recipes from the steppe, <em>made for your kitchen.</em></h1>
+      <p class="lede">Plov, manti, beshbarmak, boorsok: the dishes of Kyrgyzstan and Central Asia, explained step by step, with the stories behind them.</p>
+      <a class="btn" href="/recipes/">Browse recipes</a>
+    </div>
+  </section>
+
+  <Ornament count={9} />
+
+  <section class="wrap">
+    <h2>Fresh from the kazan</h2>
+    <div class="grid">
+      {recipes.map((r) => <RecipeCard recipe={r} />)}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { background: var(--ink); color: var(--cream); padding: clamp(3.5rem, 10vw, 7rem) 0; position: relative; overflow: hidden; }
+  .hero::after { content: ''; position: absolute; right: -120px; top: 50%; width: 420px; height: 420px; transform: translateY(-50%); border-radius: 50%;
+    border: 18px solid var(--red); box-shadow: 0 0 0 18px var(--gold), 0 0 0 36px var(--teal); opacity: .9; }
+  .inner { position: relative; z-index: 1; max-width: 720px; margin-left: max(1.25rem, calc((100% - var(--max)) / 2)); }
+  .eyebrow { margin: 0; font-size: .8rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); }
+  h1 { font-size: clamp(2.5rem, 7vw, 4.6rem); margin: .5rem 0 1.2rem; }
+  h1 em { color: var(--gold); font-style: italic; }
+  .lede { font-size: 1.2rem; opacity: .9; margin: 0 0 2rem; max-width: 560px; }
+  h2 { font-size: 2rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
+  @media (max-width: 760px) { .hero::after { width: 260px; height: 260px; right: -150px; opacity: .45; } }
+</style>
