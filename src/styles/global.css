@@ -8,7 +8,7 @@
   --sage: #7D8C68;
   --pine: #5B6A4E;
   --mountain: #A9B5BC;
-  --apricot: #B0612A;
+  --red: #B3362C;
   --line: #E2DCD0;
   --font-display: 'Fraunces', Georgia, serif;
   --font-body: 'Nunito', system-ui, sans-serif;
@@ -23,9 +23,9 @@ a { color: var(--lake); text-underline-offset: .2em; }
 h1, h2, h3 { font-family: var(--font-display); font-weight: 500; line-height: 1.15; letter-spacing: -.01em; }
 .wrap { width: min(100% - 2.5rem, var(--max)); margin-inline: auto; }
 .prose { width: min(100% - 2.5rem, 680px); margin-inline: auto; }
-.eyebrow { margin: 0; font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--sage); }
+.eyebrow { margin: 0; font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--red); }
 .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .75rem 1.4rem; border-radius: 999px; background: var(--ink); color: var(--snow); font: inherit; font-weight: 700; text-decoration: none; border: 0; cursor: pointer; transition: background .2s; }
-.btn:hover { background: var(--lake); }
+.btn:hover { background: var(--red); }
 .btn.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line); }
 .btn.ghost:hover { box-shadow: inset 0 0 0 1.5px var(--ink); }
 .skip { position: absolute; left: -999px; }
