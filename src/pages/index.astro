@@ -4,6 +4,7 @@ import BoorsokMark from '../components/BoorsokMark.astro';
 import Base from '../layouts/Base.astro';
 import RecipeCard from '../components/RecipeCard.astro';
 import Mountains from '../components/Mountains.astro';
+import Newsletter from '../components/Newsletter.astro';
 import CourseIcon from '../components/CourseIcon.astro';
 import { courses, occasions } from '../data/menu';
 
@@ -41,17 +42,17 @@ const recipes = (await getCollection('recipes')).sort((a, b) => b.data.date.valu
   </section>
 
   <!-- Hospitality band -->
-  <section class="table-band">
-    <div class="wrap band-inner">
+  <section class="wrap">
+    <div class="table-band band-inner">
       <div>
-        <p class="eyebrow light">The dastorkon</p>
+        <p class="eyebrow">The dastorkon</p>
         <blockquote>In Central Asia, a guest never leaves hungry. Tea is poured before you've sat down, and the table fills with bread, fruit and something warm from the kazan.</blockquote>
         <p class="band-note">These recipes are made to be shared the same way. Cook for the moment:</p>
         <div class="occ">
           {occasions.map((o) => <a href={`/occasions/${o.slug}/`}>{o.label}</a>)}
         </div>
       </div>
-        <span class="band-mark"><BoorsokMark mono size={220} /></span>
+        <span class="band-mark"><BoorsokMark size={150} /></span>
     </div>
   </section>
 
@@ -64,6 +65,8 @@ const recipes = (await getCollection('recipes')).sort((a, b) => b.data.date.valu
       {recipes.map((r) => <RecipeCard recipe={r} />)}
     </div>
   </section>
+
+  <section class="wrap nl"><Newsletter /></section>
 
   <!-- New to Central Asian cooking -->
   <section class="wrap guides">
@@ -104,19 +107,19 @@ const recipes = (await getCollection('recipes')).sort((a, b) => b.data.date.valu
   .tile span { font-weight: 700; font-size: .92rem; line-height: 1.25; color: var(--ink); }
   .tile:hover { transform: translateY(-3px); background: color-mix(in srgb, var(--c) 45%, #fff); }
 
-  .table-band { background: var(--red); color: #FBEFEA; margin-bottom: 5rem; overflow: hidden; }
-  .band-inner { display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center; padding-block: clamp(3rem, 7vw, 4.5rem); }
-  .eyebrow.light { color: #F6C9B8; }
-  blockquote { margin: .8rem 0 1rem; font-family: var(--font-display); font-style: italic; font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.4; color: #fff; max-width: 760px; }
-  .band-note { margin: 0 0 1rem; opacity: .9; }
+  .table-band { max-width: 940px; margin: 0 auto 5rem; background: #F7E7DF; border-radius: 24px; border-left: 4px solid var(--red); }
+  .band-inner { display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center; padding: clamp(1.75rem, 5vw, 3rem) clamp(1.5rem, 5vw, 3.25rem); }
+  blockquote { margin: .7rem 0 .9rem; font-family: var(--font-display); font-style: italic; font-size: clamp(1.3rem, 2.6vw, 1.7rem); line-height: 1.45; color: var(--ink); max-width: 600px; }
+  .band-note { margin: 0 0 1rem; color: var(--ink-soft); }
   .occ { display: flex; flex-wrap: wrap; gap: .5rem; }
-  .occ a { padding: .45rem 1rem; border-radius: 999px; border: 1px solid rgba(255,255,255,.45); color: #fff; text-decoration: none; font-weight: 700; font-size: .9rem; }
-  .occ a:hover { background: #fff; color: var(--red); }
-  .band-mark { color: rgba(255,255,255,.3); }
-  .band-mark :global(svg) { width: clamp(120px, 18vw, 220px); height: auto; display: block; }
+  .occ a { padding: .4rem .95rem; border-radius: 999px; background: #fff; border: 1px solid #EBCFC4; color: var(--ink); text-decoration: none; font-weight: 700; font-size: .88rem; }
+  .occ a:hover { border-color: var(--red); color: var(--red); }
+  .band-mark { opacity: .9; }
+  .band-mark :global(svg) { width: clamp(90px, 13vw, 150px); height: auto; display: block; }
 
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 2.5rem 1.75rem; }
 
+  .nl { margin-top: 5rem; }
   .guides { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 5rem; }
   .guide { display: block; padding: clamp(1.5rem, 4vw, 2.5rem); border-radius: 20px; text-decoration: none; color: var(--ink); transition: transform .2s; }
   .guide:hover { transform: translateY(-3px); }

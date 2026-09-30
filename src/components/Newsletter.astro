@@ -1,0 +1,71 @@
+---
+// Newsletter signup. Not connected yet: nothing is sent or stored.
+// TODO: connect a newsletter provider (e.g. MailerLite, Buttondown), set the form action,
+// and update /privacy/ before switching this on.
+import BoorsokMark from './BoorsokMark.astro';
+const { compact = false } = Astro.props;
+---
+<section class:list={['newsletter', { compact }]} aria-labelledby="nl-title">
+  <div class="copy">
+    {!compact && <BoorsokMark size={44} />}
+    <p class="eyebrow">Newsletter</p>
+    <h2 id="nl-title">The Tea Time Letter</h2>
+    <p class="lede">A short letter from our kitchen, once a month. Best read with a cup of tea.</p>
+    {!compact && (
+      <ul class="inside">
+        <li><strong>One new recipe</strong>, before it's on the site</li>
+        <li><strong>One family story</strong> from our table</li>
+        <li><strong>One pantry tip</strong> or ingredient swap</li>
+      </ul>
+    )}
+  </div>
+
+  <form class="form" data-newsletter novalidate>
+    <label for={compact ? 'nl-email-c' : 'nl-email'}>Your email</label>
+    <div class="row">
+      <input id={compact ? 'nl-email-c' : 'nl-email'} type="email" name="email" placeholder="you@example.com" autocomplete="email" required />
+      <button type="submit">Join the table</button>
+    </div>
+    <p class="fine">No spam, ever. One email a month, unsubscribe anytime. We never share your address.</p>
+    <p class="msg" role="status" aria-live="polite"></p>
+  </form>
+</section>
+
+<script>
+  // Until a provider is connected, say so honestly instead of pretending to subscribe.
+  document.querySelectorAll<HTMLFormElement>('[data-newsletter]').forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = form.querySelector('input')!;
+      const msg = form.querySelector('.msg')!;
+      if (!input.checkValidity()) { msg.textContent = 'Please enter a valid email address.'; input.focus(); return; }
+      msg.textContent = "Thank you! The Tea Time Letter opens soon. Nothing was saved yet, so please check back.";
+      input.value = '';
+    });
+  });
+</script>
+
+<style>
+  .newsletter { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(1.5rem, 5vw, 3.5rem); align-items: center; padding: clamp(1.75rem, 5vw, 3.25rem); border-radius: 24px; background: #E6EBDD; }
+  .newsletter :global(.boorsok-mark) { margin-bottom: .6rem; }
+  h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin: .35rem 0 .5rem; }
+  .lede { margin: 0; color: var(--ink-soft); font-size: 1.08rem; max-width: 440px; }
+  .inside { list-style: none; padding: 0; margin: 1.2rem 0 0; display: grid; gap: .45rem; }
+  .inside li { padding-left: 1.4rem; position: relative; color: var(--ink-soft); }
+  .inside li::before { content: ''; position: absolute; left: 0; top: .62em; width: 8px; height: 8px; border-radius: 50%; background: #EBC27A; box-shadow: 0 0 0 3px rgba(235,194,122,.3); }
+  .inside strong { color: var(--ink); }
+
+  .form { background: #fff; border-radius: 18px; padding: clamp(1.25rem, 3vw, 1.75rem); box-shadow: 0 18px 40px -28px rgba(46,43,39,.35); }
+  label { display: block; font-weight: 700; font-size: .9rem; margin-bottom: .5rem; }
+  .row { display: flex; gap: .5rem; flex-wrap: wrap; }
+  input { flex: 1 1 200px; min-width: 0; font: inherit; padding: .75rem 1rem; border: 1px solid var(--line); border-radius: 999px; background: var(--snow); color: var(--ink); }
+  input:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 4px rgba(46,43,39,.06); }
+  button { font: inherit; font-weight: 700; padding: .75rem 1.3rem; border: 0; border-radius: 999px; background: var(--ink); color: var(--snow); cursor: pointer; flex: none; }
+  button:hover { background: var(--red); }
+  .fine { margin: .8rem 0 0; font-size: .82rem; color: var(--ink-soft); }
+  .msg { margin: .5rem 0 0; font-size: .9rem; font-weight: 700; color: var(--pine); min-height: 1.3em; }
+
+  .compact { grid-template-columns: 1fr; gap: 1.25rem; padding: clamp(1.5rem, 4vw, 2.25rem); }
+  .compact h2 { font-size: 1.6rem; }
+  @media (max-width: 760px) { .newsletter { grid-template-columns: 1fr; } }
+</style>
