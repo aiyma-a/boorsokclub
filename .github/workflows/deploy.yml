@@ -26,8 +26,8 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          # Served at https://tryingtobe.github.io/boorsokclub/ until the custom domain is connected.
-          SITE: https://tryingtobe.github.io
+          # Served at https://aiyma-a.github.io/boorsokclub/ until the custom domain is connected.
+          SITE: https://aiyma-a.github.io
           BASE_PATH: /boorsokclub
           # Keep search engines out while the site is still a draft. Remove at launch.
           PUBLIC_NOINDEX: "true"
